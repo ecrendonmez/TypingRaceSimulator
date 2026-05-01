@@ -39,6 +39,7 @@ TypingRaceSimulator/
 ```bash
 cd Part1
 javac Typist.java TypingRace.java
+java TypingRace
 ```
 
 ### How to run
@@ -66,6 +67,7 @@ and setAccuracy() clamping.
 ```bash
 cd Part2
 javac Typist.java TypingRaceGUI.java
+java TypingRaceGUI
 ```
 
 ### How to run
