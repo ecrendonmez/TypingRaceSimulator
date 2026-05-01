@@ -42,7 +42,7 @@ javac Typist.java TypingRace.java
 ```
 
 ### How to run
-del repo.bundle
+
 ```bash
 java TypingRace
 ```
