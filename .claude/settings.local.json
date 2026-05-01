@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(javac TypingRaceGUI.java)",
-      "Bash(javac -encoding UTF-8 TypingRaceGUI.java)"
-    ]
-  }
-}
