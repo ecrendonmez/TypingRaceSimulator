@@ -12,7 +12,7 @@ A two-part Java project: a terminal-based typing race simulator (Part I) and a f
 
 ```
 TypingRaceSimulator/
-├── .git/                   # Git repository (initialised at project start)
+├── .git/                   # Git repository (hidden)
 ├── README.md               # This file
 │
 ├── Part1/
@@ -42,7 +42,7 @@ javac Typist.java TypingRace.java
 ```
 
 ### How to run
-
+del repo.bundle
 ```bash
 java TypingRace
 ```
