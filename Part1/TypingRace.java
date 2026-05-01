@@ -2,7 +2,7 @@ import java.util.concurrent.TimeUnit;
 import java.lang.Math;
 
 /**
- * A typing race simulation. Multiple typists race to complete a passage of text,
+ * A typing race simulation. Three typists race to complete a passage of text,
  * advancing character by character.
  *
  * Originally written by Ty Posaurus who later on, abandoned.
@@ -10,7 +10,6 @@ import java.lang.Math;
  * @author (Ecren Donmez)
  * @version 1.0
  */
-
 public class TypingRace
 {
     private int passageLength; // Total characters in the passage to type
@@ -98,6 +97,15 @@ public class TypingRace
         seat2BurntOutThisRace = false;
         seat3BurntOutThisRace = false;
 
+        // Print initial frame so ANSI overwrite has something to overwrite on turn 1.
+        System.out.println("  TYPING RACE \u2014 passage length: " + passageLength + " chars");
+        multiplePrint('=', passageLength + 3); System.out.println();
+        if (seat1Typist != null) { printSeat(seat1Typist); System.out.println(); }
+        if (seat2Typist != null) { printSeat(seat2Typist); System.out.println(); }
+        if (seat3Typist != null) { printSeat(seat3Typist); System.out.println(); }
+        multiplePrint('=', passageLength + 3); System.out.println();
+        System.out.println("  [~] = burnt out    [<] = just mistyped");
+
         while (!finished)
         {
             // Advance each seated typist by one turn.
@@ -168,6 +176,7 @@ public class TypingRace
 
     /**
      * Simulates one turn for a typist.
+     *
      * If the typist is burnt out, they recover one turn's worth and skip typing.
      * Otherwise:
      *   - They may type a character (advancing progress) based on their accuracy.
@@ -191,14 +200,13 @@ public class TypingRace
         {
             theTypist.typeCharacter();
 
-           /**
-            * Burnout check moved INSIDE the successful-type block.
-            * Original ran burnout check unconditionally, meaning a typist could
-            * type a character and immediately burn out in the same turn,
-            * wasting their progress and unfairly freezing them straight away.
+            /**
+             * Burnout check moved INSIDE the successful-type block.
+             * Original ran burnout check unconditionally, meaning a typist could
+             * type a character and immediately burn out in the same turn,
+             * wasting their progress and unfairly freezing them straight away.
+             * if (Math.random() < 0.05 * theTypist.getAccuracy() * theTypist.getAccuracy())
             */
-            if (Math.random() < 0.05 * theTypist.getAccuracy() * theTypist.getAccuracy())
-
             {
                 theTypist.burnOut(BURNOUT_DURATION);
 
@@ -213,7 +221,7 @@ public class TypingRace
          * BUG 3 FIX: mistype probability now uses (1 - accuracy) instead of accuracy.
          * Original: Math.random() < theTypist.getAccuracy() * MISTYPE_BASE_CHANCE
          * This made MORE accurate typists mistype MORE often completely backwards.
-         * Fix: higher accuracy, lower mistype chance
+         * Fix: higher accuracy → lower mistype chance, as intended.
          */
         if (Math.random() < (1.0 - theTypist.getAccuracy()) * MISTYPE_BASE_CHANCE)
         {
@@ -230,7 +238,7 @@ public class TypingRace
     private boolean raceFinishedBy(Typist theTypist)
     {
         // BUG 2 FIX: changed == to >= 
-        // Original used ==, which the spec explicitly warns against because
+        // Original used == which the spec explicitly warns against because
         // progress CAN overshoot passageLength in edge cases.
         return theTypist.getProgress() >= passageLength;
     }
@@ -241,7 +249,7 @@ public class TypingRace
      */
     private void printRace()
     {
-        System.out.print('\u000C'); // Clear terminal.
+        System.out.print("\033[8A\033[J");
 
         System.out.println("  TYPING RACE \u2014 passage length: " + passageLength + " chars");
         multiplePrint('=', passageLength + 3);
@@ -316,8 +324,8 @@ public class TypingRace
         }
     }
 
+    // Entry point
     /**
-     * Entry point
      * Demonstrates the race with three typists on a 40-character passage.
      *
      * @param args command-line arguments (not used)
