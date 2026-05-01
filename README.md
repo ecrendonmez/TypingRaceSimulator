@@ -81,3 +81,5 @@ The graphical version is started by calling `startRaceGUI()`, which launches the
 - The starter code in Part1 was originally written by Ty Posaurus. Four bugs were found and fixed, with four additional improvements made during the review.
 - All code compiles and runs using standard command-line tools without any IDE-specific configuration.
 - ANSI escape codes are used for terminal animation in Part 1. These may not render correctly in all Windows terminals, use Windows Terminal or a POSIX shell for best results.
+
+GitHub Repository: https://github.com/ecrendonmez/TypingRaceSimulator
